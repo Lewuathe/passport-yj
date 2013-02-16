@@ -29,15 +29,17 @@ passport.deserializeUser(function(obj, done) {
 //   Strategies in Passport require a `verify` function, which accept
 //   credentials (in this case, an accessToken, refreshToken, and Yahoo JAPAN
 //   profile), and invoke a callback with a user object.
+var buf = new Buffer(YAHOO_JAPAN_APP_ID + ":" + YAHOO_JAPAN_APP_SECRET).toString('base64');
 passport.use(new YJStrategy({
     clientID: YAHOO_JAPAN_APP_ID,
     clientSecret: YAHOO_JAPAN_APP_SECRET,
-    callbackURL: "http://lewuathe.com:3000/auth/yj/callback"
+    callbackURL: "http://lewuathe.com:3000/auth/yj/callback",
+    scope: 'openid',
+    customHeaders: buf
   },
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
     process.nextTick(function () {
-      
       // To keep the example simple, the user's Yahoo JAPAN profile is returned to
       // represent the logged-in user.  In a typical application, you would want
       // to associate the Yahoo JAPAN account with a user record in your database,
@@ -71,6 +73,8 @@ app.configure(function() {
 
 
 app.get('/', function(req, res){
+  //console.log(req);
+  //console.log(res);
   res.render('index', { user: req.user });
 });
 
