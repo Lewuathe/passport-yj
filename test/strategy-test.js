@@ -1,8 +1,13 @@
 var vows = require('vows');
 var assert = require('assert');
 var util = require('util');
+<<<<<<< Updated upstream
 var url = require('url');
 var YJStrategy = require('passport-yj/strategy');
+=======
+var YJStrategy = require('passport-yj/strategy');
+console.log(YJStrategy);
+>>>>>>> Stashed changes
 
 
 vows.describe('YJStrategy').addBatch({
@@ -182,7 +187,12 @@ vows.describe('YJStrategy').addBatch({
     },
   },
   
+<<<<<<< Updated upstream
   'strategy when loading user profile with mapped profile fields': {
+=======
+    /*
+  'strategy when loading user profile': {
+>>>>>>> Stashed changes
     topic: function() {
       var strategy = new YJStrategy({
           clientID : "kaisasak",
@@ -237,7 +247,12 @@ vows.describe('YJStrategy').addBatch({
   'strategy when loading user profile with id and photos': {
     topic: function() {
       var strategy = new YJStrategy({
+<<<<<<< Updated upstream
           clientID : "kaisasak",
+=======
+          clientID : "hoge",
+          clientSecret : "fuga",
+>>>>>>> Stashed changes
           redirectURL : "http://lewuathe.com",
           scope : "open_id"
       },
@@ -287,9 +302,15 @@ vows.describe('YJStrategy').addBatch({
   'strategy when loading user profile with id and photos using October 2012 Breaking Changes': {
     topic: function() {
       var strategy = new YJStrategy({
+<<<<<<< Updated upstream
           clientID : "kaisasak",
           redirectURL : "http://lewuathe.com",
           scope : "open_id"
+=======
+        consumerKey: 'ABC123',
+        consumerSecret: 'secret',
+        skipExtendedUserProfile: true
+>>>>>>> Stashed changes
       },
       function() {});
       
@@ -337,6 +358,7 @@ vows.describe('YJStrategy').addBatch({
   'strategy when loading user profile and encountering an error': {
     topic: function() {
       var strategy = new YJStrategy({
+<<<<<<< Updated upstream
           clientID : "kaisasak",
           redirectURL : "http://lewuathe.com",
           scope : "open_id"
@@ -348,6 +370,13 @@ vows.describe('YJStrategy').addBatch({
         callback(new Error('something-went-wrong'));
       }
       
+=======
+          consumerKey: 'ABC123',
+          consumerSecret: 'secret'
+        },
+        function() {}
+      );
+>>>>>>> Stashed changes
       return strategy;
     },
     
@@ -374,5 +403,6 @@ vows.describe('YJStrategy').addBatch({
       },
     },
   },
+  */
   
 }).export(module);
