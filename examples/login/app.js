@@ -3,10 +3,8 @@ var express = require('express')
   , util = require('util')
   , YJStrategy = require('./passport-yj/strategy');
 
-console.log(YJStrategy);
-
-var YAHOO_JAPAN_APP_ID = "dj0zaiZpPUdPaTkzSnYxOFdxdyZkPVlXazliVFI0YjFrd016UW1jR285TUEtLSZzPWNvbnN1bWVyc2VjcmV0Jng9ZDE-";
-var YAHOO_JAPAN_APP_SECRET = "0bb54df659ace15964420b07348aea44dae9bb74";
+var YAHOO_JAPAN_APP_ID = "dj0zaiZpPU04TGgxTEJud29jZCZkPVlXazlkMEZIY1V0SE5EZ21jR285TUEtLSZzPWNvbnN1bWVyc2VjcmV0Jng9MGM-";
+var YAHOO_JAPAN_APP_SECRET = "97ed62c3a58db27768c586cb1cb8522e50b31cef";
 
 
 // Passport session setup.
@@ -29,13 +27,11 @@ passport.deserializeUser(function(obj, done) {
 //   Strategies in Passport require a `verify` function, which accept
 //   credentials (in this case, an accessToken, refreshToken, and Yahoo JAPAN
 //   profile), and invoke a callback with a user object.
-var buf = new Buffer(YAHOO_JAPAN_APP_ID + ":" + YAHOO_JAPAN_APP_SECRET).toString('base64');
 passport.use(new YJStrategy({
     clientID: YAHOO_JAPAN_APP_ID,
     clientSecret: YAHOO_JAPAN_APP_SECRET,
     callbackURL: "http://lewuathe.com:3000/auth/yj/callback",
-    scope: 'openid',
-    customHeaders: buf
+    scope: 'openid'
   },
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
@@ -73,8 +69,6 @@ app.configure(function() {
 
 
 app.get('/', function(req, res){
-  //console.log(req);
-  //console.log(res);
   res.render('index', { user: req.user });
 });
 
