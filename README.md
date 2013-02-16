@@ -18,4 +18,9 @@ You can integrate into below applications or frameworks.
 
 ### Configuration Strategy
 
-This YConnect passport module requires your application 
+This YConnect passport module requires your application' id. 
+You can get this id from [YConnect admin](http://developer.yahoo.co.jp/start/)
+
+### Authorization Endpoint
+
+### Token Endpoint

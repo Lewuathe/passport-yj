@@ -1,7 +1,7 @@
 var vows = require('vows');
 var assert = require('assert');
 var util = require('util');
-var TwitterStrategy = require('passport-yj/strategy');
+var YJStrategy = require('passport-yj/strategy');
 
 
 vows.describe('YJ Strategy').addBatch({
