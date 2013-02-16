@@ -3,7 +3,7 @@ var vows   = require('vows')
   , util   = require('util')
   , url    = require('url');
 var YJStrategy = require('passport-yj/strategy')
-  , Config = require('./config');
+  , Config = require('../config');
 
 // constant
 var PROFILE_PAGE = 'https://userinfo.yahooapis.jp/yconnect/v1/attribute';
@@ -22,7 +22,7 @@ vows.describe('YJStrategy').addBatch({
           clientID    : CLIENT_ID,
           clientSecret: CLIENT_SECRET,
           redirectURL : REDIRECT_URI,
-          scope : "open_id"
+          scope : "openid"
       },
       function() {});
     },
@@ -38,7 +38,7 @@ vows.describe('YJStrategy').addBatch({
           clientID    : CLIENT_ID,
           clientSecret: CLIENT_SECRET,
           redirectURL : REDIRECT_URI,
-          scope : "open_id"
+          scope : "openid"
       });
       return strategy;
     },
@@ -88,7 +88,7 @@ vows.describe('YJStrategy').addBatch({
           clientID    : CLIENT_ID,
           clientSecret: CLIENT_SECRET,
           redirectURL : REDIRECT_URI,
-          scope : "open_id"
+          scope : "openid"
       },
       function() {});
 
@@ -147,7 +147,7 @@ vows.describe('YJStrategy').addBatch({
           clientID    : CLIENT_ID,
           clientSecret: CLIENT_SECRET,
           redirectURL : REDIRECT_URI,
-          scope : "open_id"
+          scope : "openid"
       },
       function() {});
       
@@ -199,7 +199,7 @@ vows.describe('YJStrategy').addBatch({
           clientID    : CLIENT_ID,
           clientSecret: CLIENT_SECRET,
           redirectURL : REDIRECT_URI,
-          scope : "open_id"
+          scope : "openid"
 
       },
       function() {});
@@ -250,7 +250,7 @@ vows.describe('YJStrategy').addBatch({
           clientID    : CLIENT_ID,
           clientSecret: CLIENT_SECRET,
           redirectURL : REDIRECT_URI,
-          scope : "open_id"
+          scope : "openid"
       },
       function() {});
 

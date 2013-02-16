@@ -5,9 +5,7 @@ var express = require('express')
   , util = require('util')
   , YJStrategy = require('./passport-yj/strategy');
 
-var YAHOO_JAPAN_APP_ID = "dj0zaiZpPU04TGgxTEJud29jZCZkPVlXazlkMEZIY1V0SE5EZ21jR285TUEtLSZzPWNvbnN1bWVyc2VjcmV0Jng9MGM-";
-var YAHOO_JAPAN_APP_SECRET = "97ed62c3a58db27768c586cb1cb8522e50b31cef";
-
+var SCOPE = "openid profile address email";
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -30,10 +28,9 @@ passport.deserializeUser(function(obj, done) {
 //   credentials (in this case, an accessToken, refreshToken, and Yahoo JAPAN
 //   profile), and invoke a callback with a user object.
 passport.use(new YJStrategy({
-    clientID: YAHOO_JAPAN_APP_ID,
-    clientSecret: YAHOO_JAPAN_APP_SECRET,
-    callbackURL: "http://lewuathe.com:3000/auth/yj/callback",
-    scope: 'openid'
+    clientID:     require('./config').client_id
+  , clientSecret: require('./config').client_secret
+  , callbackURL:  require('./config').redirect_uri
   },
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
@@ -88,7 +85,10 @@ app.get('/login', function(req, res){
 //   redirecting the user to yahoo.co.jp.  After authorization, Yahoo JAPAN will
 //   redirect the user back to this application at /auth/yj/callback
 app.get('/auth/yj',
-  passport.authenticate('yj'),
+  passport.authenticate('yj', {
+    scope: SCOPE
+  , nonce: parseInt((new Date)/1000)
+  }),
   function(req, res){
     // The request will be redirected to Yahoo JAPAN for authentication, so this
     // function will not be called.
@@ -97,10 +97,12 @@ app.get('/auth/yj',
 // GET /auth/yj/callback
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  If authentication fails, the user will be redirected back to the
-//   login page.  Otherwise, the primary route function function will be called,
+//   login page.  Otherwise, the primary route function will be called,
 //   which, in this example, will redirect the user to the home page.
 app.get('/auth/yj/callback', 
-  passport.authenticate('yj', { failureRedirect: '/login' }),
+  passport.authenticate('yj', { 
+    failureRedirect: '/login'
+  }),
   function(req, res) {
     res.redirect('/');
   });
