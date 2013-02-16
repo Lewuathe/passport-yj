@@ -19,6 +19,9 @@
         "pkginfo" : "0.2.x",
         "passport-oauth" : "0.1.x"
     },
+    "devDependencies": {
+        "vows": "0.6.x"
+    },
     "scripts" : {
         "test" : "NODE_PATH=lib node_modules/.bin/vows test/*-test.js"
     },
