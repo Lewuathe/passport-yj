@@ -3,7 +3,7 @@
 var express = require('express')
   , passport = require('passport')
   , util = require('util')
-  , YJStrategy = require('./passport-yj/strategy');
+  , YJStrategy = require('passport-yj').YJStrategy;
 
 var SCOPE = "openid profile address email";
 
