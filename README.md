@@ -23,4 +23,29 @@ You can get this id from [YConnect admin](http://developer.yahoo.co.jp/start/)
 
 ### Authorization Endpoint
 
+    var passport = require('passport');
+	
+	passport.use(new YJStrategy({
+	    clientID     : <YAHOO_JAPAN_APP_ID>,
+		clientSecret : <YAHOO_JAPAN_APP_SECRET>,
+		callbackURL  : <CALL_BACK_URL>,
+		scope        : <SCOPE>
+	}, function(accessToken, refreshtoken, profile, done){
+	    // With this accessToken you can access user profile data.
+		// In the case that accessToken is expired, you should 
+		// regain it with refreshToken. So you have to keep these token
+		// safely. done will get user profile data such as openid in YConnect	
+	});
+
+
 ### Token Endpoint
+
+With this module, you don't have to do anything to get accessToken. 
+As you see above, you have already obtain accessToken and refreshToken.
+So this process is not required with this module.
+
+### License
+
+MIT License. Please see the LICENSE file for details.
+    
+

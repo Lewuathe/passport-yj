@@ -24,7 +24,8 @@
     },
     "devDependencies": {
         "vows": "0.6.x",
-        "passport": "*"
+        "passport": "*",
+	"express" : "*"
     },
     "scripts" : {
         "test" : "NODE_PATH=lib node_modules/.bin/vows test/*-test.js",
