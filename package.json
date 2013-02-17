@@ -2,7 +2,7 @@
     "name" : "passport-yj",
     "version" : "1.0.0",
     "description" : "Yahoo! JAPAN authentication strategy for passport",
-    "keywords" : ["passport", "twitter", "auth", "authentication", "identity"],
+    "keywords" : ["passport", "auth", "authentication", "identity", "oauth2", "yahoo", "yconnect"],
     "repository" : {
         "type" : "git",
         "url" : "git://github.com/Lewuathe/passport-yj.git"

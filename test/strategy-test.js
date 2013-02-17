@@ -1,23 +1,28 @@
-var vows = require('vows');
-var assert = require('assert');
-var util = require('util');
-var url = require('url');
-var YJStrategy = require('passport-yj/strategy');
+var vows   = require('vows')
+  , assert = require('assert')
+  , util   = require('util')
+  , url    = require('url');
+var YJStrategy = require('passport-yj/strategy')
+  , Config = require('../config');
 
-var $CLIENT_ID = "dj0zaiZpPUdPaTkzSnYxOFdxdyZkPVlXazliVFI0YjFrd016UW1jR285TUEtLSZzPWNvbnN1bWVyc2VjcmV0Jng9ZDE-";
-var $CLIENT_SECRET = "0bb54df659ace15964420b07348aea44dae9bb74";
-var $REDIRECT_URL = "http://lewuathe.com";
-var $ACCESS_TOKEN = "e4dptiEHoLTHYMTQLxRuiaiaf9CMpuxeQg9.EDi6UNTUQ8HAmSOz9rEDn4H7tUas__VRzuMz8Fkrg2q1p42FAR9K6ueBSW4XJNkuJix2oPyX0RvQhHKTW.JGMMKmYA1iVMhJt8JTriwwvcjJty12O0gB5ytauGQe9tMSX69C1gUvYqLNtcz9GTtRsCBi_lkcSS4.jwd44h_7OKsUudtLXYnO0xbey5Fp0fYXrZb.e6msbgGiThfu5tdc6NTr0.QNyWxF_rNM6QW6JZDDXshPrh_1dZUXAid8GzmXtFRR28sjldligyniqP8x0BJ6IotF_jj.YGRtYfYt4L3tAifz5f6okTG3zfnMITvk6n18VO1pioAhR8Y6g7SnAujEda6bFoXcFC2i3pMd2GjhWM7PxbfmgsuHyPcFRp7YIAqzX7IDGQoy7XLlKv24ZpR7EdSGum3xsIIW7ecJe6kPyZg_867PN54hV5DlF0gBnqvC8W.FvZUJ_Kpk.1ULeZ19kMDZ9Ww0difY5X9HZn0GXm1HwjvZgfps4PuXk9wEZjsn7VMQgpjLzC0GiHmhAbln3fgJX7mSPsgv88xgOdTeh_ALjiHnkTF9QIAM5Rd89efywx8AlSz0ps0Huh9kuEC4kanI3xsGdSyEfp0Cvk6DDORq8uvIUic.F68kxvXCFSqkyLa570XTbhvOcDBgtOFwen_dFR7Ph8rBoPoTF3IK_onUVFfqLyg6naUjM1876R5IlnJn4nXPL7AXL3NW";
-var $PROFILE_PAGE = 'https://userinfo.yahooapis.jp/yconnect/v1/attribute';
+// constant
+var PROFILE_PAGE = 'https://userinfo.yahooapis.jp/yconnect/v1/attribute';
 
+// dummy data
+var CLIENT_ID     = Config.client_id;
+var CLIENT_SECRET = Config.client_secret;
+var REDIRECT_URI  = Config.redirect_uri;
+var ACCESS_TOKEN  = Config.access_token;
+
+// test cases
 vows.describe('YJStrategy').addBatch({
   'strategy': {
     topic: function() {
       return new YJStrategy({
-          clientID : $CLIENT_ID,
-          clientSecret: $CLIENT_SECRET,
-          redirectURL : $REDIRECT_URL,
-          scope : "open_id"
+          clientID    : CLIENT_ID,
+          clientSecret: CLIENT_SECRET,
+          redirectURL : REDIRECT_URI,
+          scope : "openid"
       },
       function() {});
     },
@@ -30,10 +35,10 @@ vows.describe('YJStrategy').addBatch({
   'strategy when redirecting for authorization': {
     topic: function () {
       var strategy = new YJStrategy({
-          clientID : $CLIENT_ID,
-          clientSecret: $CLIENT_SECRET,
-          redirectURL : $REDIRECT_URL,
-          scope : "open_id"
+          clientID    : CLIENT_ID,
+          clientSecret: CLIENT_SECRET,
+          redirectURL : REDIRECT_URI,
+          scope : "openid"
       });
       return strategy;
     },
@@ -80,16 +85,16 @@ vows.describe('YJStrategy').addBatch({
   'strategy when loading user profile': {
     topic: function() {
       var strategy = new YJStrategy({
-          clientID : $CLIENT_ID,
-          clientSecret: $CLIENT_SECRET,
-          redirectURL : $REDIRECT_URL,
-          scope : "open_id"
+          clientID    : CLIENT_ID,
+          clientSecret: CLIENT_SECRET,
+          redirectURL : REDIRECT_URI,
+          scope : "openid"
       },
       function() {});
 
       // mock
       strategy._oauth2.getProtectedResource = function(url, accessToken, callback) {
-        if (url == $PROFILE_PAGE) {
+        if (url == PROFILE_PAGE) {
           var body = '{"id":"500308595","name":"Jared Hanson","first_name":"Jared","last_name":"Hanson","link":"http:\\/\\/www.facebook.com\\/jaredhanson","username":"jaredhanson","gender":"male","email":"jaredhanson\\u0040example.com"}';
           callback(null, body, undefined);
         } else {
@@ -106,7 +111,7 @@ vows.describe('YJStrategy').addBatch({
           self.callback(err, profile);
         }
         process.nextTick(function () {
-          strategy.userProfile($ACCESS_TOKEN, done);
+          strategy.userProfile(ACCESS_TOKEN, done);
         });
       },
       'should not error' : function(err, req) {
@@ -139,16 +144,16 @@ vows.describe('YJStrategy').addBatch({
   'strategy when loading user profile with profileURL option': {
     topic: function() {
       var strategy = new YJStrategy({
-          clientID : $CLIENT_ID,
-          clientSecret: $CLIENT_SECRET,
-          redirectURL : $REDIRECT_URL,
-          scope : "open_id"
+          clientID    : CLIENT_ID,
+          clientSecret: CLIENT_SECRET,
+          redirectURL : REDIRECT_URI,
+          scope : "openid"
       },
       function() {});
       
       // mock
       strategy._oauth2.getProtectedResource = function(url, accessToken, callback) {
-        if (url == $PROFILE_PAGE) {
+        if (url == PROFILE_PAGE) {
           var body = '{"id":"500308595","name":"Jared Hanson","first_name":"Jared","last_name":"Hanson","link":"http:\\/\\/www.facebook.com\\/jaredhanson","username":"jaredhanson","gender":"male","email":"jaredhanson\\u0040example.com"}';
           callback(null, body, undefined);
         } else {
@@ -167,7 +172,7 @@ vows.describe('YJStrategy').addBatch({
         }
         
         process.nextTick(function () {
-          strategy.userProfile($ACCESS_TOKEN, done);
+          strategy.userProfile(ACCESS_TOKEN, done);
         });
       },
       
@@ -191,17 +196,17 @@ vows.describe('YJStrategy').addBatch({
   'strategy when loading user profile with mapped profile fields': {
     topic: function() {
       var strategy = new YJStrategy({
-          clientID : $CLIENT_ID,
-          clientSecret: $CLIENT_SECRET,
-          redirectURL : $REDIRECT_URL,
-          scope : "open_id"
+          clientID    : CLIENT_ID,
+          clientSecret: CLIENT_SECRET,
+          redirectURL : REDIRECT_URI,
+          scope : "openid"
 
       },
       function() {});
 
       // mock
       strategy._oauth2.getProtectedResource = function(url, accessToken, callback) {
-        if (url == $PROFILE_PAGE) {
+        if (url == PROFILE_PAGE) {
           var body = '{"name":"\u5c71\u53e3\u6d0b\u5e73","given_name":"\u6d0b\u5e73","given_name#ja-Kana-JP":"\u30e8\u30a6\u30d8\u30a4","given_name#ja-Hani-JP":"\u6d0b\u5e73","family_name":"\u5c71\u53e3","family_name#ja-Kana-JP":"\u30e4\u30de\u30b0\u30c1","family_name#ja-Hani-JP":"\u5c71\u53e3","locale":"ja-JP","birthday":"1987","gender":"male"}';
           callback(null, body, undefined);
         } else {
@@ -219,7 +224,7 @@ vows.describe('YJStrategy').addBatch({
         }
 
         process.nextTick(function () {
-          strategy.userProfile($ACCESS_TOKEN, done);
+          strategy.userProfile(ACCESS_TOKEN, done);
         });
       },
 
@@ -242,10 +247,10 @@ vows.describe('YJStrategy').addBatch({
   'strategy when loading user profile and encountering an error': {
     topic: function() {
       var strategy = new YJStrategy({
-          clientID : $CLIENT_ID,
-          clientSecret: $CLIENT_SECRET,
-          redirectURL : $REDIRECT_URL,
-          scope : "open_id"
+          clientID    : CLIENT_ID,
+          clientSecret: CLIENT_SECRET,
+          redirectURL : REDIRECT_URI,
+          scope : "openid"
       },
       function() {});
 
@@ -264,7 +269,7 @@ vows.describe('YJStrategy').addBatch({
         }
 
         process.nextTick(function () {
-          strategy.userProfile($ACCESS_TOKEN, done);
+          strategy.userProfile(ACCESS_TOKEN, done);
         });
       },
 
