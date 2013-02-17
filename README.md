@@ -29,7 +29,6 @@ You can get this id from [YConnect admin](http://developer.yahoo.co.jp/start/)
 	    clientID     : <YAHOO_JAPAN_APP_ID>,
 		clientSecret : <YAHOO_JAPAN_APP_SECRET>,
 		callbackURL  : <CALL_BACK_URL>,
-		scope        : <SCOPE>
 	}, function(accessToken, refreshtoken, profile, done){
 	    // With this accessToken you can access user profile data.
 		// In the case that accessToken is expired, you should 
