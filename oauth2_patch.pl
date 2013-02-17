@@ -5,7 +5,7 @@ use File::Temp qw(tempfile);
 
 my $patch = <<'EOS';
 --- /Users/yohei/node_modules/oauth/lib/oauth2.js	2012-07-28 21:46:01.000000000 +0900
-+++ node_modules/passport-oauth/node_modules/oauth/lib/oauth2.js	2013-02-17 16:02:26.000000000 +0900
++++ node_modules/passport-oauth/node_modules/oauth/lib/oauth2.js	2013-02-17 16:16:56.000000000 +0900
 @@ -115,8 +115,8 @@
  
  exports.OAuth2.prototype.getOAuthAccessToken= function(code, params, callback) {
@@ -23,8 +23,6 @@ my $patch = <<'EOS';
         'Content-Type': 'application/x-www-form-urlencoded'
 +     , 'Authorization': "Basic " + new Buffer(this._clientId + ":" + this._clientSecret).toString('base64')
     };
- 
- 
 EOS
 my ($fh, $patchfile) = tempfile();
 print $fh $patch;
