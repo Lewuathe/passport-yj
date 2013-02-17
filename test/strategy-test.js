@@ -6,13 +6,12 @@ var YJStrategy = require('passport-yj/strategy')
   , Config = require('../config');
 
 // constant
-var PROFILE_PAGE = 'https://userinfo.yahooapis.jp/yconnect/v1/attribute';
+var PROFILE_PAGE = 'https://userinfo.yahooapis.jp/yconnect/v1/attribute?schema=openid';
 
 // dummy data
 var CLIENT_ID     = Config.client_id;
 var CLIENT_SECRET = Config.client_secret;
 var REDIRECT_URI  = Config.redirect_uri;
-var ACCESS_TOKEN  = Config.access_token;
 
 // test cases
 vows.describe('YJStrategy').addBatch({
@@ -21,8 +20,7 @@ vows.describe('YJStrategy').addBatch({
       return new YJStrategy({
           clientID    : CLIENT_ID,
           clientSecret: CLIENT_SECRET,
-          redirectURL : REDIRECT_URI,
-          scope : "openid"
+          redirectURL : REDIRECT_URI
       },
       function() {});
     },
@@ -37,8 +35,7 @@ vows.describe('YJStrategy').addBatch({
       var strategy = new YJStrategy({
           clientID    : CLIENT_ID,
           clientSecret: CLIENT_SECRET,
-          redirectURL : REDIRECT_URI,
-          scope : "openid"
+          redirectURL : REDIRECT_URI
       });
       return strategy;
     },
@@ -62,7 +59,7 @@ vows.describe('YJStrategy').addBatch({
       }
     },
 
-    'and display set to mobile': {
+    'and display set to touch': {
       topic: function (strategy) {
         var mockRequest = {},
             url;
@@ -72,12 +69,12 @@ vows.describe('YJStrategy').addBatch({
         strategy.redirect = function (location) {
           self.callback(null, location)
         };
-        strategy.authenticate(mockRequest, { display: 'mobile' });
+        strategy.authenticate(mockRequest, { display: 'touch' });
       },
 
-      'sets authorization param to mobile': function(err, location) {
+      'sets authorization param to touch': function(err, location) {
         var params = url.parse(location, true).query;
-        assert.equal(params.display, 'mobile');
+        assert.equal(params.display, 'touch');
       }
     }
   },
@@ -87,18 +84,17 @@ vows.describe('YJStrategy').addBatch({
       var strategy = new YJStrategy({
           clientID    : CLIENT_ID,
           clientSecret: CLIENT_SECRET,
-          redirectURL : REDIRECT_URI,
-          scope : "openid"
+          redirectURL : REDIRECT_URI
       },
       function() {});
 
       // mock
       strategy._oauth2.getProtectedResource = function(url, accessToken, callback) {
         if (url == PROFILE_PAGE) {
-          var body = '{"id":"500308595","name":"Jared Hanson","first_name":"Jared","last_name":"Hanson","link":"http:\\/\\/www.facebook.com\\/jaredhanson","username":"jaredhanson","gender":"male","email":"jaredhanson\\u0040example.com"}';
+          var body = '{"name":"\u5c71\u53e3\u6d0b\u5e73","given_name":"\u6d0b\u5e73","given_name#ja-Kana-JP":"\u30e8\u30a6\u30d8\u30a4","given_name#ja-Hani-JP":"\u6d0b\u5e73","family_name":"\u5c71\u53e3","family_name#ja-Kana-JP":"\u30e4\u30de\u30b0\u30c1","family_name#ja-Hani-JP":"\u5c71\u53e3","locale":"ja-JP","gender":"male"}';
           callback(null, body, undefined);
         } else {
-          callback(new Error('Incorrect user profile URL'));
+          callback(new Error('Incorrect user profile URL: ' + url));
         }
       }
       return strategy;
@@ -110,135 +106,35 @@ vows.describe('YJStrategy').addBatch({
         function done(err, profile) {
           self.callback(err, profile);
         }
+
         process.nextTick(function () {
-          strategy.userProfile(ACCESS_TOKEN, done);
+          strategy.userProfile('access_token', done);
         });
       },
+
       'should not error' : function(err, req) {
         assert.isNull(err);
       },
       'should load profile' : function(err, profile) {
         assert.equal(profile.provider, 'yj');
-        assert.equal(profile.id, '500308595');
-        assert.equal(profile.username, 'jaredhanson');
-        assert.equal(profile.displayName, 'Jared Hanson');
-        assert.equal(profile.name.familyName, 'Hanson');
-        assert.equal(profile.name.givenName, 'Jared');
-        assert.equal(profile.gender, 'male');
-        assert.equal(profile.profileUrl, 'http://www.facebook.com/jaredhanson');
-        assert.lengthOf(profile.emails, 1);
-        assert.equal(profile.emails[0].value, 'jaredhanson@example.com');
-        assert.isUndefined(profile.photos);
+        assert.equal(profile.name, "\u5c71\u53e3\u6d0b\u5e73");
+        assert.equal(profile.given_name, "\u6d0b\u5e73");
+        assert.equal(profile['given_name#ja-Kana-JP'], "\u30e8\u30a6\u30d8\u30a4");
+        assert.equal(profile['given_name#ja-Hani-JP'], "\u6d0b\u5e73");
+        assert.equal(profile.family_name, "\u5c71\u53e3");
+        assert.equal(profile["family_name#ja-Kana-JP"], "\u30e4\u30de\u30b0\u30c1");
+        assert.equal(profile["family_name#ja-Hani-JP"], "\u5c71\u53e3");
+        assert.equal(profile.locale, "ja-JP");
+        assert.equal(profile.gender, "male");
       },
       'should set raw property' : function(err, profile) {
+        assert.isDefined(profile);
         assert.ok('_raw' in profile);
         assert.isString(profile._raw);
       },
       'should set json property' : function(err, profile) {
+        assert.isDefined(profile);
         assert.ok('_json' in profile);
-        assert.isObject(profile._json);
-      },
-    },
-  },
-  
-  'strategy when loading user profile with profileURL option': {
-    topic: function() {
-      var strategy = new YJStrategy({
-          clientID    : CLIENT_ID,
-          clientSecret: CLIENT_SECRET,
-          redirectURL : REDIRECT_URI,
-          scope : "openid"
-      },
-      function() {});
-      
-      // mock
-      strategy._oauth2.getProtectedResource = function(url, accessToken, callback) {
-        if (url == PROFILE_PAGE) {
-          var body = '{"id":"500308595","name":"Jared Hanson","first_name":"Jared","last_name":"Hanson","link":"http:\\/\\/www.facebook.com\\/jaredhanson","username":"jaredhanson","gender":"male","email":"jaredhanson\\u0040example.com"}';
-          callback(null, body, undefined);
-        } else {
-          callback(new Error('Incorrect user profile URL: ' + url));
-        }
-      }
-      
-      return strategy;
-    },
-    
-    'when told to load user profile': {
-      topic: function(strategy) {
-        var self = this;
-        function done(err, profile) {
-          self.callback(err, profile);
-        }
-        
-        process.nextTick(function () {
-          strategy.userProfile(ACCESS_TOKEN, done);
-        });
-      },
-      
-      'should not error' : function(err, req) {
-        assert.isNull(err);
-      },
-      'should load profile' : function(err, profile) {
-        assert.equal(profile.provider, 'yj');
-        assert.equal(profile.id, '500308595');
-        assert.equal(profile.username, 'jaredhanson');
-      },
-      'should set raw property' : function(err, profile) {
-        assert.isString(profile._raw);
-      },
-      'should set json property' : function(err, profile) {
-        assert.isObject(profile._json);
-      },
-    },
-  },
-  
-  'strategy when loading user profile with mapped profile fields': {
-    topic: function() {
-      var strategy = new YJStrategy({
-          clientID    : CLIENT_ID,
-          clientSecret: CLIENT_SECRET,
-          redirectURL : REDIRECT_URI,
-          scope : "openid"
-
-      },
-      function() {});
-
-      // mock
-      strategy._oauth2.getProtectedResource = function(url, accessToken, callback) {
-        if (url == PROFILE_PAGE) {
-          var body = '{"name":"\u5c71\u53e3\u6d0b\u5e73","given_name":"\u6d0b\u5e73","given_name#ja-Kana-JP":"\u30e8\u30a6\u30d8\u30a4","given_name#ja-Hani-JP":"\u6d0b\u5e73","family_name":"\u5c71\u53e3","family_name#ja-Kana-JP":"\u30e4\u30de\u30b0\u30c1","family_name#ja-Hani-JP":"\u5c71\u53e3","locale":"ja-JP","birthday":"1987","gender":"male"}';
-          callback(null, body, undefined);
-        } else {
-          callback(new Error('Incorrect user profile URL: ' + url));
-        }
-      }
-      return strategy;
-    },
-
-    'when told to load user profile': {
-      topic: function(strategy) {
-        var self = this;
-        function done(err, profile) {
-          self.callback(err, profile);
-        }
-
-        process.nextTick(function () {
-          strategy.userProfile(ACCESS_TOKEN, done);
-        });
-      },
-
-      'should not error' : function(err, req) {
-        assert.isNull(err);
-      },
-      'should load profile' : function(err, profile) {
-        assert.equal(profile.provider, 'yj');
-        console.log(profile);
-      },
-      'should set raw property' : function(err, profile) {
-        assert.isString(profile._raw);
-      },
-      'should set json property' : function(err, profile) {
         assert.isObject(profile._json);
       },
     },
@@ -249,8 +145,7 @@ vows.describe('YJStrategy').addBatch({
       var strategy = new YJStrategy({
           clientID    : CLIENT_ID,
           clientSecret: CLIENT_SECRET,
-          redirectURL : REDIRECT_URI,
-          scope : "openid"
+          redirectURL : REDIRECT_URI
       },
       function() {});
 
@@ -269,7 +164,7 @@ vows.describe('YJStrategy').addBatch({
         }
 
         process.nextTick(function () {
-          strategy.userProfile(ACCESS_TOKEN, done);
+          strategy.userProfile('access_token', done);
         });
       },
 
