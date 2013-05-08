@@ -104,7 +104,7 @@ app.get('/auth/yj/callback',
     failureRedirect: '/login'
   }),
   function(req, res) {
-    res.redirect('/');
+    res.redirect('/account');
   });
 
 app.get('/logout', function(req, res){

@@ -1,3 +1,5 @@
-<p>ID: <%= user.id %></p>
-<p>Username: <%= user.username %></p>
-<p>Name: <%= user.displayName %></p>
+<% if (user) { %>
+<p>Name: <%= user.name %></p>
+<p>GivenName: <%= user.given_name %></p>
+<p>FamilyName: <%= user.family_name %></p>
+<% } %>
