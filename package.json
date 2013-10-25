@@ -1,9 +1,10 @@
 {
     "name" : "passport-yj",
-    "version" : "1.0.3",
+    "version" : "1.0.4",
     "description" : "Yahoo! JAPAN authentication strategy for passport",
     "contributors" : [
-        "Yohei Yamaguchi <joker13meister@gmail.com>"
+        "Yohei Yamaguchi <joker13meister@gmail.com>",
+        "Kai Sasaki      <lewuathe@me.com>"
     ],
     "keywords" : ["passport", "auth", "authentication", "identity", "oauth2", "yahoo", "yconnect"],
     "repository" : {
@@ -20,11 +21,11 @@
     "main" : "./lib/passport-yj",
     "dependencies":{
         "pkginfo" : "0.2.x",
-        "passport-oauth" : "0.1.x"
+        "passport-oauth" : "0.1.x",
+        "passport": "*"
     },
     "devDependencies": {
-        "vows": "0.6.x",
-        "passport": "*",
+        "vows": "0.7.x",
         "express" : "*"
     },
     "scripts" : {

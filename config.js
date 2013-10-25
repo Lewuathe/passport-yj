@@ -2,7 +2,7 @@
  * Config
  */
 module.exports = {
-  client_id: "your_client_id",
-  client_secret: "your_client_secret",
-  redirect_uri: "your_redirect_uri",
+  client_id: "<CLIENT_ID>",
+  client_secret: "<CLIENT_SECRET>",
+  redirect_uri: "<CALLBACK_URL>",
 }

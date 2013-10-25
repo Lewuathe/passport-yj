@@ -2,7 +2,7 @@ var vows   = require('vows')
   , assert = require('assert')
   , util   = require('util')
   , url    = require('url');
-var YJStrategy = require('passport-yj/strategy')
+var YJStrategy = require('../lib/passport-yj/strategy')
   , Config = require('../config');
 
 // constant
@@ -117,13 +117,14 @@ vows.describe('YJStrategy').addBatch({
       },
       'should load profile' : function(err, profile) {
         assert.equal(profile.provider, 'yj');
-        assert.equal(profile.name, "\u5c71\u53e3\u6d0b\u5e73");
-        assert.equal(profile.given_name, "\u6d0b\u5e73");
-        assert.equal(profile['given_name#ja-Kana-JP'], "\u30e8\u30a6\u30d8\u30a4");
-        assert.equal(profile['given_name#ja-Hani-JP'], "\u6d0b\u5e73");
-        assert.equal(profile.family_name, "\u5c71\u53e3");
-        assert.equal(profile["family_name#ja-Kana-JP"], "\u30e4\u30de\u30b0\u30c1");
-        assert.equal(profile["family_name#ja-Hani-JP"], "\u5c71\u53e3");
+        assert.equal(profile.displayName, "\u5c71\u53e3\u6d0b\u5e73");
+        var name = profile.name;
+        assert.equal(name.givenName, "\u6d0b\u5e73");
+        assert.equal(name['given_name#ja-Kana-JP'], "\u30e8\u30a6\u30d8\u30a4");
+        assert.equal(name['given_name#ja-Hani-JP'], "\u6d0b\u5e73");
+        assert.equal(name.familyName, "\u5c71\u53e3");
+        assert.equal(name["family_name#ja-Kana-JP"], "\u30e4\u30de\u30b0\u30c1");
+        assert.equal(name["family_name#ja-Hani-JP"], "\u5c71\u53e3");
         assert.equal(profile.locale, "ja-JP");
         assert.equal(profile.gender, "male");
       },
