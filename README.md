@@ -1,5 +1,5 @@
-# passport-yj   [![Build Status](https://travis-ci.org/Lewuathe/passport-yj.png?branch=master)](https://travis-ci.org/Lewuathe/passport-yj)
-===========
+# passport-yj [![Build Status](https://travis-ci.org/Lewuathe/passport-yj.png?branch=master)](https://travis-ci.org/Lewuathe/passport-yj)
+=======
 
 Oauth2.0 npm package for Yahoo! JAPAN corresponds to YConnect
 
