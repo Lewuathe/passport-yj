@@ -1,5 +1,5 @@
 <% if (user) { %>
-<p>Name: <%= user.name %></p>
-<p>GivenName: <%= user.given_name %></p>
-<p>FamilyName: <%= user.family_name %></p>
+<p>Name: <%= user.displayName %></p>
+<p>GivenName: <%= user.name.givenName %></p>
+<p>FamilyName: <%= user.name.familyName %></p>
 <% } %>
