@@ -1,6 +1,6 @@
 {
     "name" : "passport-yj",
-    "version" : "1.0.4",
+    "version" : "1.0.5",
     "description" : "Yahoo! JAPAN authentication strategy for passport",
     "contributors" : [
         "Yohei Yamaguchi <joker13meister@gmail.com>",
