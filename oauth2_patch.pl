@@ -30,4 +30,15 @@ EOS
 my ($fh, $patchfile) = tempfile();
 print $fh $patch;
 close($fh);
-`patch -f node_modules/passport-oauth/node_modules/oauth/lib/oauth2.js < $patchfile`;
+
+my $result = `node -e "require('passport-oauth'); console.log(module.children[0].paths.join(','));"`;
+chomp $result;
+my @paths = split(/,/, $result);
+
+foreach my $path(@paths) {
+    my $target = $path . '/oauth/lib/oauth2.js';
+    if ( -f $target ) {
+        `patch -f $target < $patchfile`;
+        last;
+    }
+}
