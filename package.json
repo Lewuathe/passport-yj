@@ -1,10 +1,11 @@
 {
     "name" : "passport-yj",
-    "version" : "1.0.5",
+    "version" : "1.0.6",
     "description" : "Yahoo! JAPAN authentication strategy for passport",
     "contributors" : [
         "Yohei Yamaguchi <joker13meister@gmail.com>",
-        "Kai Sasaki      <lewuathe@me.com>"
+        "Kai Sasaki      <lewuathe@me.com>",
+        "Hiroyuki Anai <pirosikick@gmail.com>"
     ],
     "keywords" : ["passport", "auth", "authentication", "identity", "oauth2", "yahoo", "yconnect"],
     "repository" : {
