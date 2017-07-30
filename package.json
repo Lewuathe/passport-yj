@@ -1,40 +1,44 @@
 {
-    "name" : "passport-yj",
-    "version" : "1.0.6",
-    "description" : "Yahoo! JAPAN authentication strategy for passport",
-    "contributors" : [
+    "name": "passport-yj",
+    "version": "1.0.6",
+    "description": "Yahoo! JAPAN authentication strategy for passport",
+    "contributors": [
         "Yohei Yamaguchi <joker13meister@gmail.com>",
         "Kai Sasaki      <lewuathe@me.com>",
         "Hiroyuki Anai <pirosikick@gmail.com>"
     ],
-    "keywords" : ["passport", "auth", "authentication", "identity", "oauth2", "yahoo", "yconnect"],
-    "repository" : {
-        "type" : "git",
-        "url" : "git://github.com/Lewuathe/passport-yj.git"
+    "keywords": [
+        "passport",
+        "auth",
+        "authentication",
+        "identity",
+        "oauth2",
+        "yahoo",
+        "yconnect"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/Lewuathe/passport-yj.git"
     },
-    "bugs" : {
-        "url" : "git://github.com/Lewuathe/passport-yj.git/issues"
+    "bugs": {
+        "url": "git://github.com/Lewuathe/passport-yj.git/issues"
     },
-    "license": [{
-        "type": "MIT",
-        "url" : "http://www.opensource.org/licenses/MIT"
-    }],
-    "main" : "./lib/passport-yj",
-    "dependencies":{
-        "pkginfo" : "0.2.x",
-        "passport-oauth" : "0.1.x",
+    "license": "MIT",
+    "main": "./lib/passport-yj",
+    "dependencies": {
+        "pkginfo": "0.2.x",
+        "passport-oauth": "0.1.x",
         "passport": "*"
     },
     "devDependencies": {
         "vows": "0.7.x",
-        "express" : "*"
+        "express": "*"
     },
-    "scripts" : {
-        "test" : "NODE_PATH=lib node_modules/.bin/vows test/*-test.js",
-        "postinstall" : "perl ./oauth2_patch.pl"
+    "scripts": {
+        "test": "NODE_PATH=lib node_modules/.bin/vows test/*-test.js",
+        "postinstall": "perl ./oauth2_patch.pl"
     },
-    "engines" : {
-        "node" : ">= 0.4.0"
+    "engines": {
+        "node": ">= 0.4.0"
     }
 }
-
