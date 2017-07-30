@@ -1,9 +1,11 @@
 passport-yj - OAuth2.0 npm package for Yahoo! JAPAN YConnect
 ===========
 
-[![Build Status](https://travis-ci.org/Lewuathe/passport-yj.png?branch=master)](https://travis-ci.org/Lewuathe/passport-yj)
+[![Build Status](https://travis-ci.org/Lewuathe/passport-yj.png?branch=master)](https://travis-ci.org/Lewuathe/passport-yj) [![npm](https://img.shields.io/npm/dt/express.svg)](https://www.npmjs.com/package/passport-yj)
+
 
 [![NPM](https://nodei.co/npm/passport-yj.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/passport-yj/)
+
 
 ## Introduction
 
