@@ -36,7 +36,7 @@ chomp $result;
 my @paths = split(/,/, $result);
 
 foreach my $path(@paths) {
-    my $target = $path . '/oauth/lib/oauth2.js';
+    my $target = File::Spec->catfile( $path, 'oauth/lib/oauth2.js');
     if ( -f $target ) {
         `patch -f $target < $patchfile`;
         last;
