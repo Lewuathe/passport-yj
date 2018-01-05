@@ -36,7 +36,7 @@ vows.describe('YJStrategy').addBatch({
           clientID    : CLIENT_ID,
           clientSecret: CLIENT_SECRET,
           redirectURL : REDIRECT_URI
-      });
+      }, function() {});
       return strategy;
     },
 
